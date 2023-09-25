@@ -80,15 +80,15 @@ void SetPosDown() { position.SubY(); }
 
 ## 方块类图
 
-![](images\Abr_Chunk类图.png)
+![](images/Abr_Chunk类图.png)
 
 ## 游戏类图
 
-![](images\游戏类图.png)
+![](images/游戏类图.png)
 
 ## 程序逻辑
 
-![](images\游戏逻辑.png)
+![](images/游戏逻辑.png)
 
 # 依赖库
 
