@@ -54,6 +54,8 @@ void SetPosDown() { position.SubY(); }
 
 10.修改程序逻辑：现在将方块作为游戏类的一个成员数据（之前是作为成员方法之间传递的一个变量），虽然这个成员数据在运行之间会更换指向动态空间，但是减少了需要在各个成员方法之间作为参数传递的消耗。
 
+11.更新类UML图和函数说明、程序运行逻辑
+
 
 
 
@@ -75,6 +77,18 @@ void SetPosDown() { position.SubY(); }
 项目内容：基于ncursesw库（2023年windows版本，mingw-20230423）完成一个俄罗斯方块游戏
 
 整体设计框架来自于tinytetris项目，但是作者taylorconor虽然写的是c++文件，却只使用了C++四大组成部分中的C部分。因此为了锻炼C++语言中的C和Object-Oriented C++部分的语法掌握和能力，笔者重新设计了这个小游戏，主要是使用Object-Oriented C++部分的知识，以及对于游戏中的逻辑做了部分修改。
+
+## 方块类图
+
+![](images\Abr_Chunk类图.png)
+
+## 游戏类图
+
+![](images\游戏类图.png)
+
+## 程序逻辑
+
+![](images\游戏逻辑.png)
 
 # 依赖库
 
