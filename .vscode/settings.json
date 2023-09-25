@@ -51,7 +51,8 @@
         "typeinfo": "cpp",
         "valarray": "cpp",
         "complex": "cpp",
-        "ios": "cpp"
+        "ios": "cpp",
+        "climits": "cpp"
     },
     "C_Cpp.errorSquiggles": "enabled",
     "cmake.configureOnOpen": false

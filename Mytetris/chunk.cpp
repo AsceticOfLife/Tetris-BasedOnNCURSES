@@ -5,7 +5,7 @@
  * @description: 初始化一个O型块
  * @return {*}
  */
-O_Chunk::O_Chunk() {
+O_Chunk::O_Chunk() : Abr_Chunk() {
     SetWH(Point(1, 1));
     SetBlock(0, Point(0, 0));
     SetBlock(1, Point(0, 1));
@@ -24,21 +24,27 @@ void O_Chunk::Rerotate() {
 
 /**
  * @description: 以状态s初始化一个I型块
- * @param {int} s
+ * @param {int} s: 0或者1，表示I型只有两种状态
  * @return {*}
  */
-I_Chunk::I_Chunk(int s) : state(s) {
+I_Chunk::I_Chunk(int s) : Abr_Chunk(), state(s) {
     SetShape();
 }
 
 void I_Chunk::SetShape() {
     if (state == 0) {
+        // 状态形如
+        // 0
+        // 0
+        // 0
+        // 0
         SetWH(Point(0, 3));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(0, 1));
         SetBlock(2, Point(0, 2));
         SetBlock(3, Point(0, 3)); 
     } else {
+        // 状态形如 0000
         SetWH(Point(3, 0));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(1, 0));
@@ -48,12 +54,12 @@ void I_Chunk::SetShape() {
 }
 
 void I_Chunk::Rotate() {
-    state = (state + 1) % 2;
+    state = (state + 1) % TypeNum;
     SetShape();
 }
 
 void I_Chunk::Rerotate() {
-    state = (state - 1) % 2;
+    state = (state - 1) % TypeNum;
     SetShape();
 }
 
@@ -63,18 +69,23 @@ void I_Chunk::Rerotate() {
  * @param {int} s
  * @return {*}
  */
-S_Chunk::S_Chunk(int s) : state(s) {
+S_Chunk::S_Chunk(int s) : Abr_Chunk(), state(s) {
     SetShape();
 }
 
 void S_Chunk::SetShape() {
     if (state == 0) {
+        // @@
+        //@@
         SetWH(Point(2, 1));
         SetBlock(0, Point(1, 0));
         SetBlock(1, Point(2, 0));
         SetBlock(2, Point(0, 1));
         SetBlock(3, Point(1, 1));  
     } else {
+        // @
+        // @@
+        //  @
         SetWH(Point(1, 2));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(0, 1));
@@ -84,12 +95,12 @@ void S_Chunk::SetShape() {
 }
 
 void S_Chunk::Rotate() {
-    state = (state + 1) % 2;
+    state = (state + 1) % TypeNum;
     SetShape();
 }
 
 void S_Chunk::Rerotate() {
-    state = (state - 1) % 2;
+    state = (state - 1) % TypeNum;
     SetShape();
 }
 
@@ -99,18 +110,23 @@ void S_Chunk::Rerotate() {
  * @param {int} s
  * @return {*}
  */
-Z_Chunk::Z_Chunk(int s) : state(s) {
+Z_Chunk::Z_Chunk(int s) : Abr_Chunk(), state(s) {
     SetShape();
 }
 
 void Z_Chunk::SetShape() {
     if (state == 0) {
+        // @@
+        //  @@
         SetWH(Point(2, 1));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(1, 0));
         SetBlock(2, Point(1, 1));
         SetBlock(3, Point(2, 1));          
     } else {
+        //  @
+        // @@
+        // @
         SetWH(Point(1, 2));
         SetBlock(0, Point(1, 0));
         SetBlock(1, Point(0, 1));
@@ -120,12 +136,12 @@ void Z_Chunk::SetShape() {
 }
 
 void Z_Chunk::Rotate() {
-    state = (state + 1) % 2;
+    state = (state + 1) % TypeNum;
     SetShape();
 }
 
 void Z_Chunk::Rerotate() {
-    state = (state - 1) % 2;
+    state = (state - 1) % TypeNum;
     SetShape();
 }
 
@@ -135,30 +151,40 @@ void Z_Chunk::Rerotate() {
  * @param {int} s
  * @return {*}
  */
-L_Chunk::L_Chunk(int s) : state(s) {
+L_Chunk::L_Chunk(int s) : Abr_Chunk(), state(s) {
     SetShape();
 }
 
 void L_Chunk::SetShape() {
     if (state == 0) {
+        // @
+        // @
+        // @@
         SetWH(Point(1, 2));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(0, 1));
         SetBlock(2, Point(0, 2));
         SetBlock(3, Point(1, 2));           
     } else if (state == 1) {
+        // @@@
+        // @
         SetWH(Point(2, 1));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(1, 0));
         SetBlock(2, Point(2, 0));
         SetBlock(3, Point(0, 1));   
     } else if (state == 2) {
+        // @@
+        //  @
+        //  @
         SetWH(Point(1, 2));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(1, 0));
         SetBlock(2, Point(1, 1));
         SetBlock(3, Point(1, 2));   
     } else {
+        //   @
+        // @@@
         SetWH(Point(2, 1));
         SetBlock(0, Point(2, 0));
         SetBlock(1, Point(0, 1));
@@ -168,40 +194,50 @@ void L_Chunk::SetShape() {
 }
 
 void L_Chunk::Rotate() {
-    state = (state + 1) % 4;
+    state = (state + 1) % TypeNum;
     SetShape();
 }
 
 void L_Chunk::Rerotate() {
-    state = (state - 1) % 4;
+    state = (state - 1) % TypeNum;
     SetShape();
 }
 
-
-J_Chunk::J_Chunk(int s) : state(s) {
+// J型方块构造函数
+J_Chunk::J_Chunk(int s) : Abr_Chunk(), state(s) {
     SetShape();
 }
 
 void J_Chunk::SetShape() {
     if (state == 0) {
+        //  @
+        //  @
+        // @@
         SetWH(Point(1, 2));
         SetBlock(0, Point(1, 0));
         SetBlock(1, Point(1, 1));
         SetBlock(2, Point(1, 2));
         SetBlock(3, Point(0, 2)); 
     } else if (state == 1) {
+        // @
+        // @@@
         SetWH(Point(2, 1));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(0, 1));
         SetBlock(2, Point(1, 1));
         SetBlock(3, Point(2, 1)); 
     } else if (state == 2) {
+        // @@
+        // @
+        // @
         SetWH(Point(1, 2));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(1, 0));
         SetBlock(2, Point(0, 1));
         SetBlock(3, Point(0, 2)); 
     } else {
+        // @@@
+        //   @
         SetWH(Point(2, 1));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(1, 0));
@@ -211,12 +247,12 @@ void J_Chunk::SetShape() {
 }
 
 void J_Chunk::Rotate() {
-    state = (state + 1) % 4;
+    state = (state + 1) % TypeNum;
     SetShape();
 }
 
 void J_Chunk::Rerotate() {
-    state = (state - 1) % 4;
+    state = (state - 1) % TypeNum;
     SetShape();
 }
 
@@ -231,24 +267,34 @@ T_Chunk::T_Chunk(int s) : state(s) {
 
 void T_Chunk::SetShape() {
     if (state == 0) {
+        // @@@
+        //  @
         SetWH(Point(2, 1));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(1, 0));
         SetBlock(2, Point(2, 0));
         SetBlock(3, Point(1, 1));  
     } else if (state == 1) {
+        //  @
+        // @@
+        //  @
         SetWH(Point(1, 2));
         SetBlock(0, Point(1, 0));
         SetBlock(1, Point(0, 1));
         SetBlock(2, Point(1, 1));
         SetBlock(3, Point(1, 2));
     } else if (state == 3) {
+        //  @
+        // @@@
         SetWH(Point(2, 1));
         SetBlock(0, Point(1, 0));
         SetBlock(1, Point(0, 1));
         SetBlock(2, Point(1, 1));
         SetBlock(3, Point(2, 1));
     } else {
+        // @
+        // @@
+        // @
         SetWH(Point(1, 2));
         SetBlock(0, Point(0, 0));
         SetBlock(1, Point(0, 1));
@@ -258,11 +304,11 @@ void T_Chunk::SetShape() {
 }
 
 void T_Chunk::Rotate() {
-    state = (state + 1) % 4;
+    state = (state + 1) % TypeNum;
     SetShape();
 }
 
 void T_Chunk::Rerotate() {
-    state = (state - 1) % 4;
+    state = (state - 1) % TypeNum;
     SetShape();
 }
